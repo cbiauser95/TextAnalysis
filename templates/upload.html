@@ -1,0 +1,162 @@
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Analytics</title>
+
+    <style>
+    .title_header{
+        text-align: center;
+        background-color: #526CDA;
+    }
+
+    .text-title{
+        padding: 5px;
+    }
+
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    function valueChanged()
+    {
+        if($('.analysis-check-lang').is(":checked"))
+            $(".analysis-lang").show();
+        else
+            $(".analysis-lang").hide();
+
+        if($('.analysis-check-sentiment').is(":checked"))
+            $(".analysis-sentiment").show();
+        else
+            $(".analysis-sentiment").hide();
+
+        if($('.analysis-check-ent-link').is(":checked"))
+            $(".analysis-ent-link").show();
+        else
+            $(".analysis-ent-link").hide();
+
+        if($('.analysis-check-key-phrases').is(":checked"))
+            $(".analysis-key-phrases").show();
+        else
+            $(".analysis-key-phrases").hide();
+
+        if($('.analysis-check-ent-rec').is(":checked"))
+            $(".analysis-ent-rec").show();
+        else
+            $(".analysis-ent-rec").hide();
+    }
+    </script>
+</head>
+
+<body onload="valueChanged()">
+    <!-- FORM FOR INPUT AND SUBMIT USING HTTP POST -->
+    <div class="title_header">
+        <h1 class="text-title">Text Analytics</h1>
+    </div>
+
+    <input type="checkbox" class="analysis-check-lang" value="1" onchange="valueChanged()">
+    <label>Language</label>
+
+    <input type="checkbox" class="analysis-check-sentiment" value="1" onchange="valueChanged()">
+    <label>Sentiment</label>
+
+    <input type="checkbox" class="analysis-check-ent-link" value="1" onchange="valueChanged()">
+    <label>Entity Linking</label>
+
+    <br><br>
+
+    <input type="checkbox" class="analysis-check-key-phrases" value="1" onchange="valueChanged()">
+    <label>Key Phrases</label>
+
+    <input type="checkbox" class="analysis-check-ent-rec" value="1" onchange="valueChanged()">
+    <label>Named Entity Recognition</label>
+    <br><br>
+
+    <form method="POST" action="/">
+        <label>Write a passage...</label> <br>
+        <textarea name="text"></textarea>
+        <button type="submit" class="btn btn-primary" name="text-upload" value="text">Upload</button>
+    </form>
+
+    <label>OR</label>
+    <br><br>
+
+    <form method="post" action="/" enctype="multipart/form-data">
+        <div class="form-group">
+            <label>Select A File</label>
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" name="file-type" id="pdf">
+                <button type="submit" class="btn btn-primary" name="file-upload" value="file">Upload</button>
+            </div>
+        </div>
+
+        <!-- TO DISPLAY THE DATA -->
+        <h3>  - Results -  </h3>
+        <div class="analysis-lang">
+            <h4>Language:</h4>
+            {% for table in tables_languages %}
+                {{ table|safe }}
+            {% endfor %}
+        </div>
+
+        <div class="analysis-sentiment">
+            <h4>Sentiment:</h4>
+            {% for table in tables_sentiment %}
+                {{ table|safe }}
+            {% endfor %}
+        </div>
+
+        <div class="analysis-key-phrases">
+            <h4>Key Phrase</h4>
+            {% for table in tables_key_phrase %}
+                {{ table|safe }}
+            {% endfor %}
+        </div>
+
+        <div class="analysis-ent-rec">
+            <h4>Named Entity Recognition</h4>
+            {% for table in tables_entity_recognition %}
+                {{ table|safe }}
+            {% endfor %}
+        </div>
+
+        <div class="analysis-ent-link">
+            <h4>Entity Linking</h4>
+            {% for table in tables_entity_linking %}
+                {{ table|safe }}
+            {% endfor %}
+        </div>
+        <p></p>
+    </form>
+
+    <form action='/export' method='post'>
+        <a href="#" download="export_dataframe.xlsx">
+            <button type="submit" >Export(.xlsx))</button>
+        </a>
+        <label>{{ress}}</label>
+    </form>
+
+
+</body>
+
+</html>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>

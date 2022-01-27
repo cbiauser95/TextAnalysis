@@ -1,0 +1,80 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Analytics</title>
+
+    <style>
+        table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+
+    </style>
+</head>
+
+<body>
+    <!-- FORM FOR INPUT AND SUBMIT USING HTTP POST -->
+    <h1>Text Analytics</h1>
+    <form method="post" action="/" enctype="multipart/form-data">
+        <div class="form-group">
+            <label>Select File</label>
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" name="file-type" id="pdf">
+                <label class="custom-file-label" for="pdf">Select File...</label>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Upload</button>
+
+        <!-- TO DISPLAY THE DATA -->
+        <h3>  - Results -  </h3>
+
+        <h4>Language:</h4>
+        {% for table in tables_languages %}
+            {{ table|safe }}
+        {% endfor %}
+
+        <h4>Sentiment:</h4>
+        {% for table in tables_sentiment %}
+            {{ table|safe }}
+        {% endfor %}
+
+        <h4>Key Phrase</h4>
+        {% for table in tables_key_phrase %}
+            {{ table|safe }}
+        {% endfor %}
+
+        <h4>Named Entity Recognition</h4>
+        {% for table in tables_entity_recognition %}
+            {{ table|safe }}
+        {% endfor %}
+
+        <h4>Entity Linking</h4>
+        {% for table in tables_entity_linking %}
+            {{ table|safe }}
+        {% endfor %}
+        <p></p>
+          </form>
+<form action='/export' method='post'>
+        <a href="#" download>
+            <button type="submit" >Export(.xlsx))</button>
+        </a>
+        <label>{{ress}}</label>
+    </form>
+
+
+</body>
+</html>

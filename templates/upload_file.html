@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<style>
+    /*#bg{*/
+    /*    display: none;*/
+    /*}*/
+    .title_header h1{
+        font-family: Arial,monospace;
+        text-align: center;
+        margin-top: 22px;
+        margin-right: 131px;
+    }
+    .title_header{
+        border-radius: 10px;
+      background-color: #002147;
+      color: white;
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+    }
+    checkbox{
+      outline-color: #002147;
+    }
+    .container{
+     box-shadow: 1px 1px 10px #888888;
+    }
+
+    textarea {
+  width: 100%;
+  height: 150px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+    .sticky{
+        position: sticky;
+        top: 0;
+    }
+     .analysis-ent-rec a,
+    .analysis-ent-link a,
+    .analysis-key-phrases a{
+   overflow-y:scroll;
+   height:100px;
+         width: auto ;
+   display:block;
+   border: 1px black solid;
+}
+    #pdf button{
+        color: #002147;
+    }
+    .analysis-key-phrases td{
+        max-height: 100px;
+        scroll-behavior: auto;
+    }
+    .analysis-ent-link td:nth-child(2){
+        word-break: break-all;
+    }
+    .analysis-key-phrases th,
+    .analysis-lang th,
+    .analysis-lang td:nth-child(2){
+        display: none;
+    }
+    img{
+        width: 100px;
+        height: 100px;
+    }
+    .analysis-lang th,
+    .analysis-ent-link th,
+    .analysis-ent-rec th,
+    .analysis-sentiment th{
+        text-align: center;
+    }
+
+
+        table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td,th{
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+
+    #checkbox-container label{
+        font-size: large;
+    }
+
+
+</style>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+    function valueChanged()
+    {
+        // if($('.analysis-check-lang').is(":checked")||$('.analysis-check-sentiment').is(":checked") || $('.analysis-check-ent-link').is(":checked") || $('.analysis-check-key-phrases').is(":checked") ||$('.analysis-check-ent-rec').is(":checked"))
+        //     $("#bg").show();
+
+        if($('.analysis-check-lang').is(":checked"))
+            $(".analysis-lang").show();
+        else
+            $(".analysis-lang").hide();
+
+        if($('.analysis-check-sentiment').is(":checked"))
+            $(".analysis-sentiment").show();
+        else
+            $(".analysis-sentiment").hide();
+
+        if($('.analysis-check-ent-link').is(":checked"))
+            $(".analysis-ent-link").show();
+        else
+            $(".analysis-ent-link").hide();
+
+        if($('.analysis-check-key-phrases').is(":checked"))
+            $(".analysis-key-phrases").show();
+        else
+            $(".analysis-key-phrases").hide();
+
+        if($('.analysis-check-ent-rec').is(":checked"))
+            $(".analysis-ent-rec").show();
+        else
+            $(".analysis-ent-rec").hide();
+    }
+    $(".custom-file-input").on("change", function() {
+
+});
+    </script>
+<body onload="valueChanged()">
+
+{% if error == 'error' %}
+         <script> alert("Only docx/pdf files allowed")</script>
+{% endif %}
+
+<div style="margin-top: 50px; padding: 10px; padding-top: 5px" class="container">
+  <div style="height: 115px"  class="title_header">
+   <img src="{{url_for('static', filename='university_of_oxford.png')}}" align="left" />
+    <img src="{{url_for('static', filename='said_buisness_school.png')}}"  align="left"/>
+  <h1>Text Analytics</h1></div>
+<div class="row">
+  <div class="col-md-5">
+      <div class="sticky">
+
+ <div style="padding-top: 10px" class="container-fluid " id = "checkbox-container">
+
+  <input style="padding-right: 4px" id="option1" type="checkbox" class="analysis-check-lang" value="1" onchange="valueChanged()" checked>
+    <label style="padding-right: 10px">Language</label>
+
+    <input style="padding-right: 4px"  id="option2" type="checkbox" class="analysis-check-sentiment" value="1" onchange="valueChanged()" checked>
+    <label style="padding-right: 10px">Sentiment</label>
+
+    <input style="padding-right: 4px" id="option3" type="checkbox" class="analysis-check-ent-link" value="1" onchange="valueChanged()" checked>
+    <label style="padding-right: 10px">Entity Linking</label>
+    <br>
+
+    <input style="padding-right: 4px" id="option4" type="checkbox" class="analysis-check-key-phrases" value="1" onchange="valueChanged()" checked>
+    <label style="padding-right: 10px">Key Phrases</label>
+
+    <input style="padding-right: 4px"  id="option5"  type="checkbox" class="analysis-check-ent-rec" value="1" onchange="valueChanged()" checked>
+    <label style="padding-right: 10px">Named Entity Recognition</label>
+</div>
+
+    <form id="form1" method="POST" action="/">
+        <label>Write a passage...</label> <br>
+        <textarea name="text" required></textarea>
+        <button style="width: 100%;background-color: #002147;" type="submit" class="btn btn-primary" name="text-upload" value="text">Analyze Text</button>
+    </form>
+
+      <center><label style="padding-top: 10px;padding-bottom: 10px">OR</label></center>
+
+         <form id = "form2" method="post" action="/" enctype="multipart/form-data">
+        <div class="form-group">
+            <div class="custom-file  mb-3">
+                <input style="background-color: #E6E6E6" type="file" class="custom-file-input" name="file-type" id="pdf" required>
+                <label class="custom-file-label" id="custom" for="pdf">Choose file</label>
+
+                <button style="width: 100%;background-color: #002147; margin-top: 10px" type="submit" class="btn btn-primary" name="file-upload" value="file">Analyze File</button>
+            </div>
+        </div>
+         </form>
+        <br>
+
+
+  <div class="row">
+    <div class="col-sm">
+        <form id="form3" action='/export' method='post'>
+            <button  style="width: 100%; background-color: #002147;" class="btn btn-primary" type="submit" >Export(.xlsx))</button>
+        </form>
+    </div>
+    <div class="col-sm">
+       <button style="width: 100%" class="btn btn-danger" onclick="clearform()">Clear</button>
+    </div>
+  </div>
+
+
+          {% if ress %}
+         <script> alert('{{ress}}')</script>
+        {% endif %}
+          </div>
+  </div>
+
+
+
+<!--    Resultss-->
+  <div style="padding-top: 10px" id="bg" class="col-md-7">
+<form method="POST" action="/">
+  <div class="analysis-lang">
+            <h4 id="analysis-lang">Language: {{det_lang}}</h4>
+<!--            {% for table in tables_languages %}-->
+<!--                {{ table|safe }}-->
+<!--            {% endfor %}-->
+
+        </div>
+        <br>
+        <div class="analysis-sentiment">
+            <h4 id="analysis-sentiment">Sentiment Score:  {{overall_positive_sentiment_score}}  {{overall_neutral_sentiment_score}}   {{overall_negative_sentiment_score}}</h4>
+<!--            {% for table in tables_sentiment %}-->
+<!--                {{ table|safe }}-->
+<!--            {% endfor %}-->
+        </div>
+    <br>
+        <div  class="analysis-ent-link">
+            <h4 >Linked Entities</h4>
+<!--            {% for table in tables_entity_linking %}-->
+<!--                {{ table|safe }}-->
+<!--            {% endfor %}-->
+            <a id="analysis-ent-link">{{linked_entites}}
+            {{linked_entites1}}</a>
+        </div>
+    <br>
+        <div  class="analysis-key-phrases">
+            <h4 >Key Phrases</h4>
+<!--            {% for table in tables_key_phrase %}-->
+<!--                {{ table|safe }}-->
+<!--            {% endfor %}-->
+            <a id="analysis-key-phrases">{{key_str}}</a>
+        </div>
+    <br>
+        <div class="analysis-ent-rec">
+            <h4 >Named Entities</h4>
+<!--            {% for table in tables_entity_recognition %}-->
+<!--                {{ table|safe }}-->
+<!--            {% endfor %}-->
+            <a id="analysis-ent-rec">{{named_entities}}</a>
+        </div>
+
+
+
+</form>
+
+
+  </div>
+
+</div>
+
+</div>
+
+</body>
+<script>
+var formValues = JSON.parse(localStorage.getItem('formValues')) || {};
+var $checkboxes = $("#checkbox-container :checkbox");
+var $button = $("#checkbox-container button");
+
+$(".custom-file-input").on("change", function() {
+  var fileName = $(this).val().split("\\").pop();
+  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+});
+function clearform(){
+         document.getElementById("form1").reset();
+         document.getElementById("form2").reset();
+         document.getElementById("form3").reset();
+        document.getElementById("analysis-sentiment").innerHTML="Sentiment Score: ";
+         document.getElementById("analysis-ent-link").innerHTML="";
+         document.getElementById("analysis-key-phrases").innerHTML="";
+         document.getElementById("analysis-ent-rec").innerHTML="";
+         document.getElementById("analysis-lang").innerHTML="Language: ";
+        document.getElementById("custom").innerHTML="Choose file";
+        }
+
+function allChecked(){
+  return $checkboxes.length === $checkboxes.filter(":checked").length;
+}
+
+function updateButtonStatus(){
+  $button.text(allChecked()? "Uncheck all" : "Check all");
+}
+
+function handleButtonClick(){
+  $checkboxes.prop("checked", allChecked()? false : true)
+}
+
+function updateStorage(){
+  $checkboxes.each(function(){
+    formValues[this.id] = this.checked;
+  });
+
+  formValues["buttonText"] = $button.text();
+  localStorage.setItem("formValues", JSON.stringify(formValues));
+}
+
+
+$checkboxes.on("change", function(){
+  updateButtonStatus();
+  updateStorage();
+});
+
+// On page load
+$.each(formValues, function(key, value) {
+  $("#" + key).prop('checked', value);
+});
+
+$button.text(formValues["buttonText"]);
+</script>
+</html>
