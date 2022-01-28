@@ -2,7 +2,7 @@ import sys
 import os
 import PyPDF2
 import pandas as pd
-from main import conn
+from client import conn
 from docx import Document
 from werkzeug.utils import secure_filename
 from flask import Flask, render_template, request
