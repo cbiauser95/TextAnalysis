@@ -408,6 +408,3 @@ def export():
                            linked_entites1=linked_entites1,
                            key_str = key_str)
 
-
-if __name__ == '__main__':
-    app.run(debug=False)
